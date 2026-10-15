@@ -22,6 +22,10 @@ class EventMap extends StatelessWidget {
         initialZoom: 5,
         minZoom: 2,
         maxZoom: 12,
+        // Keep the camera inside one copy of the world (no repeated maps).
+        cameraConstraint: CameraConstraint.contain(
+          bounds: LatLngBounds(const LatLng(-85, -180), const LatLng(85, 180)),
+        ),
       ),
       children: [
         TileLayer(

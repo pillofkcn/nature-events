@@ -16,7 +16,13 @@ class EventMap extends StatelessWidget {
     final position = LatLng(event.latitude, event.longitude);
 
     return FlutterMap(
-      options: MapOptions(initialCenter: position, initialZoom: 5),
+      // Zoom 2 shows the whole world, 12 a city; deeper zoom only loads more tiles.
+      options: MapOptions(
+        initialCenter: position,
+        initialZoom: 5,
+        minZoom: 2,
+        maxZoom: 12,
+      ),
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',

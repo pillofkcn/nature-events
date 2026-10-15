@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'providers/events_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const NatureEventsApp());
+  runApp(
+    // Registered above MaterialApp, so every screen can use EventsProvider.
+    ChangeNotifierProvider(
+      create: (context) => EventsProvider()..init(),
+      child: const NatureEventsApp(),
+    ),
+  );
 }
 
 class NatureEventsApp extends StatelessWidget {
@@ -13,7 +21,14 @@ class NatureEventsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Nature Events',
-      theme: ThemeData(colorSchemeSeed: Colors.deepOrange),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        // "fidelity" keeps the colours close to the green seed colour
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
+        ),
+      ),
       home: const HomeScreen(),
     );
   }

@@ -1,11 +1,14 @@
+// event_map.dart - mala mapa s miestom udalosti (na obrazovke detailu).
+// pouziva balik flutter_map a mapove podklady z OpenStreetMap.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../models/nature_event.dart';
 
-/// Small map with one marker at the event's position.
-/// Map tiles come from OpenStreetMap (free, no API key).
+/// mala mapa s jednou znackou na mieste udalosti.
+/// mapove podklady su z OpenStreetMap (zadarmo, bez API kluca).
 class EventMap extends StatelessWidget {
   const EventMap({super.key, required this.event});
 
@@ -13,32 +16,38 @@ class EventMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // trieda LatLng = jeden bod na mape (zemepisna sirka, zemepisna dlzka).
     final position = LatLng(event.latitude, event.longitude);
 
+    // widget FlutterMap sa sklada z vrstiev (children), ktore lezia na sebe:
+    // podklad mapy, znacka, napis s autormi mapy.
     return FlutterMap(
-      // Zoom 2 shows the whole world, 12 a city; deeper zoom only loads more tiles.
+      // zoom 2 ukaze cely svet, 12 mesto; hlbsi zoom by len stahoval viac podkladov.
       options: MapOptions(
-        initialCenter: position,
+        initialCenter: position, // mapa sa otvori nad udalostou
         initialZoom: 5,
         minZoom: 2,
         maxZoom: 12,
-        // Keep the camera inside one copy of the world (no repeated maps).
+        // kamera ostane v jednej kopii sveta (svet sa neopakuje do stran).
         cameraConstraint: CameraConstraint.contain(
           bounds: LatLngBounds(const LatLng(-85, -180), const LatLng(85, 180)),
         ),
       ),
       children: [
+        // vrstva 1: podklad mapy. obrazky (dlazdice) sa stahuju z OpenStreetMap.
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'sk.ukf.studeny.nature_events',
         ),
+        // vrstva 2: znacka (spendlik) vo farbe kategorie.
         MarkerLayer(
           markers: [
             Marker(
               point: position,
               width: 48,
               height: 48,
-              alignment: Alignment.topCenter, // pin tip points at the event
+              // spicka spendlika ukazuje presne na miesto udalosti
+              alignment: Alignment.topCenter,
               child: Icon(
                 Icons.location_on,
                 size: 48,
@@ -47,6 +56,7 @@ class EventMap extends StatelessWidget {
             ),
           ],
         ),
+        // vrstva 3: napis s autormi mapy (OpenStreetMap to vyzaduje).
         const SimpleAttributionWidget(
           source: Text('OpenStreetMap contributors'),
         ),

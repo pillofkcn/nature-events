@@ -5,7 +5,7 @@ import 'package:nature_events/models/nature_event.dart';
 import 'package:nature_events/services/eonet_service.dart';
 import 'package:nature_events/services/location_service.dart';
 
-/// Test events: Bratislava is about 50 km from Vienna and 1,300 km from Paris.
+/// testovacie udalosti: bratislava je asi 50 km od viedne a 1 300 km od parize.
 final fireNearVienna = NatureEvent(
   id: 'A',
   title: 'Fire near Vienna',

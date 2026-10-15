@@ -11,7 +11,7 @@ Future<EventsProvider> createProvider({bool withLocation = true}) async {
     location: FakeLocationService(withLocation ? bratislava : null),
   );
   await provider.init();
-  await Future<void>.delayed(Duration.zero); // let the location load
+  await Future<void>.delayed(Duration.zero); // nechaj nacitat polohu
   return provider;
 }
 

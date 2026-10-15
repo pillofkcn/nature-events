@@ -59,7 +59,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(service.lastFilter?.category, EventCategory.volcanoes);
-    expect(find.text('Nature Events'), findsOneWidget); // back on home
+    // spat na hlavnej obrazovke
+    expect(find.text('Nature Events'), findsOneWidget);
   });
 
   testWidgets('detail screen shows the event information', (tester) async {

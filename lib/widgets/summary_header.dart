@@ -1,8 +1,11 @@
+// summary_header.dart - farebny box na hlavnej obrazovke
+// (napr. "50 active events", aktivny filter a ikona polohy).
+
 import 'package:flutter/material.dart';
 
 import '../models/event_filter.dart';
 
-/// Coloured box on the home screen: number of events and the active filter.
+/// farebny box na hlavnej obrazovke: pocet udalosti a aktivny filter.
 class SummaryHeader extends StatelessWidget {
   const SummaryHeader({
     super.key,
@@ -11,23 +14,26 @@ class SummaryHeader extends StatelessWidget {
     required this.hasLocation,
   });
 
-  final int count;
-  final EventFilter filter;
-  final bool hasLocation;
+  final int count; // kolko udalosti je v zozname
+  final EventFilter filter; // aktivny filter
+  final bool hasLocation; // pozname polohu pouzivatela?
 
   @override
   Widget build(BuildContext context) {
     final category = filter.category;
-    // Category colour, or the app's main colour for "All categories"
+    // farba kategorie, alebo hlavna farba aplikacie pre "All categories"
     final color = category?.color ?? Theme.of(context).colorScheme.primary;
+    // text o zoradeni; "Nearest" ma zmysel len ked pozname polohu.
     final sortLabel = filter.sortOrder == SortOrder.nearest && hasLocation
         ? 'Nearest first'
         : 'Newest first';
 
+    // widget Container = box, ktoremu sa da nastavit farba, okraje a zaoblenie.
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
+        // prechod farieb z laveho horneho rohu do praveho dolneho.
         gradient: LinearGradient(
           colors: [color, color.withAlpha(170)],
           begin: Alignment.topLeft,
@@ -35,10 +41,12 @@ class SummaryHeader extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16),
       ),
+      // widget Row = vedla seba: ikona kategorie | texty | ikona polohy.
       child: Row(
         children: [
           Icon(category?.icon ?? Icons.public, color: Colors.white, size: 40),
           const SizedBox(width: 16),
+          // widget Expanded = texty zaberu stred, ikona polohy ostane vpravo.
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,6 +67,7 @@ class SummaryHeader extends StatelessWidget {
               ],
             ),
           ),
+          // ikona ukazuje, ci pozname polohu (zapnuta / vypnuta).
           Icon(
             hasLocation ? Icons.location_on : Icons.location_off,
             color: Colors.white70,

@@ -33,7 +33,7 @@ void main() {
 
     expect(event.category, EventCategory.severeStorms);
     expect(event.date, DateTime.utc(2026, 10, 15));
-    expect(event.latitude, 12.1); // coordinates are [longitude, latitude]
+    expect(event.latitude, 12.1); // suradnice su [longitude, latitude]
     expect(event.longitude, -100.5);
     expect(event.magnitudeValue, 65);
     expect(event.sourceUrl, 'https://example.com/storm');
